@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,15 +11,18 @@ import java.util.List;
 @Entity
 @Getter @Setter
 public class Member {
-    @Id
-    @GeneratedValue
+
+    @Id @GeneratedValue
     @Column(name = "member_id")
-    private Long Id;
+    private Long id;
+
     private String name;
+
     @Embedded
     private Address address;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
-    // 읽기 전용화
     private List<Order> orders = new ArrayList<>();
 
 }
