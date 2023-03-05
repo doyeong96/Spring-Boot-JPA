@@ -30,8 +30,8 @@ public class OrderRepository {
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
 
-            String jpql = "select o from Order o join o.member m";
-            boolean isFirstCondition = true;
+        String jpql = "select o from Order o join o.member m";
+        boolean isFirstCondition = true;
 
         //주문 상태 검색
         if (orderSearch.getOrderStatus() != null) {
@@ -101,6 +101,16 @@ public class OrderRepository {
                 " join fetch o.member m" +
                 " join fetch o.delivery d", Order.class
         ).getResultList();
+    }
+
+    public List<Order> findWithItem() {
+        return em.createQuery(
+                        "select distinct o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d" +
+                                " join fetch o.orderItems oi" +
+                                " join fetch oi.item i", Order.class)
+                .getResultList();
     }
 }
 
