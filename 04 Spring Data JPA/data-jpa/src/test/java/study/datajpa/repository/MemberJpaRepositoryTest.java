@@ -57,6 +57,20 @@ class MemberJpaRepositoryTest {
 
         long deleteCount = memberJpaRepository.count();
         assertThat(deleteCount).isEqualTo(0);
+    }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThen() {
+        Member m1 = new Member("aaa", 10);
+        Member m2 = new Member("aaa", 20);
+        memberJpaRepository.save(m1);
+        memberJpaRepository.save(m2);
+
+        List<Member> res = memberJpaRepository.findByUsernameAndAgeGreaterThan("aaa", 15);
+
+        assertThat(res.get(0).getUsername()).isEqualTo("aaa");
+        assertThat(res.get(0).getAge()).isEqualTo(20);
+        assertThat(res.size()).isEqualTo(1);
 
     }
 }
